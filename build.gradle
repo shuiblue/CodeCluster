@@ -1,1 +1,23 @@
-apply plugin: "java"
+apply plugin: 'java'
+apply plugin: 'application'
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+        }
+        resources {
+            srcDir 'resources'
+        }
+    }
+}
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    compile('com.io7m.xom:xom:1.2.10') {
+        transitive = false
+    }
+}

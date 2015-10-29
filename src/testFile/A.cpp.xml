@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<unit xmlns="http://www.sdml.info/srcML/src" xmlns:cpp="http://www.sdml.info/srcML/cpp" language="C++" filename="src/testFile/A.cpp"><decl_stmt><decl><type><name>int</name></type> <name>i</name><init>=<expr>9</expr></init></decl>;</decl_stmt>
+<function><type><name>void</name></type> <name>a</name><parameter_list>()</parameter_list><block>{
+<expr_stmt><expr><name>i</name>=0</expr>;</expr_stmt>
+}</block></function></unit>

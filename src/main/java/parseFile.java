@@ -1,10 +1,19 @@
+import nu.xom.*;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
+
+import org.xml.sax.*;
+
 
 /**
  * Created by shuruiz on 10/29/15.
  */
-public class parseFile {
+public class ParseFile {
+    static HashSet<CppNode> candidates = new HashSet<>();
+    static int lineNum = 0;
+
 
     /**
      * @param inputFile file that need to be parsed by srcML
@@ -13,16 +22,7 @@ public class parseFile {
      */
     public static String getXmlFile(String inputFile) {
         // create dir for store xml files
-        String outXmlFile = "/Users/shuruiz/Work/tmpXMLFile" + inputFile.replace("testcpp", "") + ".xml";
-        String[] paths = inputFile.replace("testcpp", "").split("/");
-        String dir_suffix = "";
-        for (int i = 1; i < paths.length - 1; i++) {
-            dir_suffix += "/" + paths[i];
-        }
-        if (!new File(outXmlFile).exists()) {
-            new File("/Users/shuruiz/Work/tmpXMLFile/" + dir_suffix).mkdirs();
-        }
-
+        String outXmlFile = inputFile.replace("testcpp", "") + ".xml";
         //run srcML
         if (new File(inputFile).isFile()) {
             try {
@@ -48,8 +48,8 @@ public class parseFile {
         try {
             Builder builder = new Builder();
             File file = new File(xmlFilePath);
-            sleep();
             doc = builder.build(file);
+
         } catch (ParsingException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -58,5 +58,40 @@ public class parseFile {
         return doc;
     }
 
+    public static void parseAST(Document document) {
+        Node astnode = document.getChild(0);
+
+
+        int childrenNum = astnode.getChildCount();
+        for (int i = 0; i < childrenNum; i++) {
+            Node child = astnode.getChild(i);
+            System.out.print("");
+
+            String astNodeType = child.getClass().getName();
+
+            if (astNodeType.contains("Text")) {
+                lineNum++;
+            }
+            if (astNodeType.contains("Element")) {
+                String localName = ((Element) child).getLocalName();
+                if (localName.contains("decl_stmt")) {
+                    String type = ((Element) child).getChildElements().get(0).getChildElements("type", "http://www.sdml.info/srcML/src").get(0).getValue();
+                    String name = ((Element) child).getChildElements().get(0).getChildElements("name", "http://www.sdml.info/srcML/src").get(0).getValue();
+                    System.out.print("");
+
+                    candidates.add(new CppNode(name, type, localName, lineNum));
+                }
+            }
+        }
+
+    }
+
+    public static void main(String args[]) {
+        String inputFile = "src/testFile/A.cpp";
+        String xmlPath = getXmlFile(inputFile);
+        Document astTree = getXmlDom(xmlPath);
+        parseAST(astTree);
+
+    }
 
 }
