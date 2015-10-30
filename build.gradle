@@ -20,4 +20,13 @@ dependencies {
     compile('com.io7m.xom:xom:1.2.10') {
         transitive = false
     }
+    compile 'net.sf.jung:jung-graph-impl:2.0.1'
+
+    compile 'net.sf.jung:jung-api:2.0.1'
+
+    compile 'net.sf.jung:jung-visualization:2.0.1'
+
+    compile 'net.sf.jung:jung-algorithms:2.0.1'
+
+
 }

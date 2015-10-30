@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<unit xmlns="http://www.sdml.info/srcML/src" xmlns:cpp="http://www.sdml.info/srcML/cpp" language="C++" filename="src/testFile/A.cpp"><decl_stmt><decl><type><name>int</name></type> <name>i</name><init>=<expr>9</expr></init></decl>;</decl_stmt>
-<function><type><name>void</name></type> <name>a</name><parameter_list>()</parameter_list><block>{
-<expr_stmt><expr><name>i</name>=0</expr>;</expr_stmt>
+<unit xmlns="http://www.sdml.info/srcML/src" xmlns:cpp="http://www.sdml.info/srcML/cpp" language="C++" filename="src/testFile/A.cpp"><decl_stmt><decl><type><name>int</name></type> <name>filesize</name><init>=<expr>9</expr></init></decl>;</decl_stmt>
+<function_decl><type><name>void</name></type> <name>print</name><parameter_list>(<param><decl><type><name>int</name></type> <name>a</name></decl></param>)</parameter_list>;</function_decl>
+<function_decl><type><name>int</name></type> <name>write</name><parameter_list>(<param><decl><type><name>String</name></type> <name>a</name></decl></param>)</parameter_list>;</function_decl>
+<decl_stmt><decl><type><name>String</name></type> <name>file</name><init>=<expr>"aaa"</expr></init></decl>;</decl_stmt>
+<function><type><name>void</name></type> <name>CardReader</name><parameter_list>()</parameter_list>
+<block>{
+   <expr_stmt><expr><name>filesize</name> = 0</expr>;</expr_stmt>
+   <expr_stmt><expr><call><name>print</name><argument_list>(<argument><expr><call><name>write</name><argument_list>(<argument><expr><name>file</name></expr></argument>)</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
 }</block></function></unit>
