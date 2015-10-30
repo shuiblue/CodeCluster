@@ -10,6 +10,7 @@ sourceSets {
             srcDir 'resources'
         }
     }
+
 }
 repositories {
     mavenCentral()
@@ -17,6 +18,8 @@ repositories {
 
 
 dependencies {
+
+
     compile('com.io7m.xom:xom:1.2.10') {
         transitive = false
     }
@@ -28,5 +31,5 @@ dependencies {
 
     compile 'net.sf.jung:jung-algorithms:2.0.1'
 
-
+    compile 'junit:junit:4.11'
 }

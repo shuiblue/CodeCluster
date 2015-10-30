@@ -6,5 +6,11 @@
 <function><type><name>void</name></type> <name>CardReader</name><parameter_list>()</parameter_list>
 <block>{
    <expr_stmt><expr><name>filesize</name> = 0</expr>;</expr_stmt>
-   <expr_stmt><expr><call><name>print</name><argument_list>(<argument><expr><call><name>write</name><argument_list>(<argument><expr><name>file</name></expr></argument>)</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+   <expr_stmt><expr><call><name>print</name><argument_list>(<argument><expr><call><name>write</name><argument_list>(<argument><expr><name>filesize</name></expr></argument>)</argument_list></call></expr></argument>)</argument_list></call></expr>;</expr_stmt>
+   <expr_stmt><expr><call><name>write</name><argument_list>()</argument_list></call></expr>;</expr_stmt>
+}</block></function>
+
+<function><type><name>void</name></type> <name>SDCard</name><parameter_list>()</parameter_list>
+<block>{
+   <expr_stmt><expr><call><name>printer</name><argument_list>()</argument_list></call></expr>;</expr_stmt>
 }</block></function></unit>

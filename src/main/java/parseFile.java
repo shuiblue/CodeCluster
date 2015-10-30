@@ -1,11 +1,7 @@
 
-import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
-import edu.uci.ics.jung.visualization.VisualizationImageServer;
 import nu.xom.*;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,7 +15,7 @@ public class ParseFile {
     static List<CppNode> candidates = new ArrayList<>();
     static int lineNum = 1;
     static Entity entity = new Entity();
-    static DirectedSparseGraph<Integer, String> g = new DirectedSparseGraph<Integer, String>();
+
 
     /**
      * @param inputFile file that need to be parsed by srcML
@@ -136,53 +132,14 @@ public class ParseFile {
 
     }
 
-    public static void dependencyGraph() {
+    public DirectedSparseGraph<Integer, Edge> codeCluster(String inputFile) {
 
-        for (CppNode c : candidates) {
-            g.addVertex(c.getLineNumber());
-        }
-        for (int i = 0; i < candidates.size(); i++) {
-            String name_1 = candidates.get(i).getName();
-            String type_1 = candidates.get(i).getType();
-            String local_1 = candidates.get(i).getLocalName();
-            int line_1 = candidates.get(i).getLineNumber();
-
-            for (int t = 0; t < candidates.size(); t++) {
-                if (i != t) {
-                    String name_2 = candidates.get(t).getName();
-                    String type_2 = candidates.get(t).getType();
-                    String local_2 = candidates.get(t).getLocalName();
-                    int line_2 = candidates.get(t).getLineNumber();
-                    if (name_1.equals(name_2)) {
-                        if (local_1.contains("decl")) {
-                            candidates.get(t).getDependencies().add(candidates.get(i));
-                            g.addEdge(type_2 + " " + name_2, line_2, line_1);
-
-                        } else if (local_2.contains("decl")) {
-                            candidates.get(i).getDependencies().add(candidates.get(t));
-                            g.addEdge(type_1 + " " + name_1, line_1, line_2);
-                        } else {
-                            candidates.get(i).sameNameList.add(candidates.get(t));
-                            candidates.get(t).sameNameList.add(candidates.get(i));
-
-                        }
-
-                    }
-                }
-            }
-
-        }
-    }
-
-    public static void visualizeGraph() {
-        VisualizationImageServer<Integer, String> vs =
-                new VisualizationImageServer<Integer, String>(new CircleLayout<Integer, String>(g), new Dimension(200, 200));
-
-        JFrame frame = new JFrame();
-        frame.getContentPane().add(vs);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+        String xmlPath = getXmlFile(inputFile);
+        Document astTree = getXmlDom(xmlPath);
+        parseAST(astTree.getChild(0));
+        DirectedSparseGraph<Integer, Edge> g = new DependencyGraph().createDependencyGraph(candidates);
+        new VisualizeGraph(g);
+        return g;
     }
 
     public static void main(String args[]) {
@@ -190,10 +147,8 @@ public class ParseFile {
         String xmlPath = getXmlFile(inputFile);
         Document astTree = getXmlDom(xmlPath);
         parseAST(astTree.getChild(0));
-        dependencyGraph();
-
-
-        System.out.print("");
+        DirectedSparseGraph<Integer, Edge> g = new DependencyGraph().createDependencyGraph(candidates);
+        new VisualizeGraph(g);
     }
 
 }

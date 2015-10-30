@@ -8,3 +8,10 @@ void CardReader()
    print(write(filesize));
    write();
 }
+
+
+char *createFilename(char *buffer,const dir_t &p) //buffer>12characters
+{
+  char *pos=filesize;
+  return buffer;
+}
